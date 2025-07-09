@@ -11,6 +11,7 @@ function App() {
     fetch('http://localhost:5000/api/stats')
       .then(res => res.json())
       .then(data => {
+        console.log("Received stats:", data); 
         setStats(data);
         setLoading(false);
       })
@@ -23,7 +24,7 @@ function App() {
   if (loading) return <div style={{padding: 32}}>Loading...</div>;
   if (error) return <div style={{padding: 32, color: 'red'}}>{error}</div>;
   if (!stats) return null;
-
+  console.log("Sales by Country:", stats.salesByCountry);
   return (
     <div style={{fontFamily: 'sans-serif', maxWidth: 900, margin: '40px auto', padding: 24, background: '#fff', borderRadius: 8, boxShadow: '0 2px 8px #eee'}}>
       <h1 style={{marginBottom: 8}}>Traffic Statistics Dashboard</h1>
@@ -53,17 +54,17 @@ function App() {
       <table style={{width: '100%', borderCollapse: 'collapse', background: '#f6f8fa', borderRadius: 8}}>
         <thead>
           <tr style={{background: '#e3e8ee'}}>
-            <th style={{padding: 8, textAlign: 'left'}}>Country</th>
-            <th style={{padding: 8, textAlign: 'right'}}>Sales ($)</th>
-
+          <th style={{padding: 8, textAlign: 'left'}}>Country</th>
+          <th style={{padding: 8, textAlign: 'right'}}>Sales ($)</th>
+          <th style={{padding: 8, textAlign: 'right'}}># of Transactions</th> {/* ✅ New column */}
           </tr>
         </thead>
         <tbody>
           {stats.salesByCountry.map(row => (
-            <tr key={row.country}>
-              <td style={{padding: 8}}>{row.country}</td>
+            <tr key={row.countryName}>
+              <td style={{padding: 8}}>{row.countryName}</td>
               <td style={{padding: 8, textAlign: 'right'}}>{row.sales.toLocaleString()}</td>
-
+              <td style={{padding: 8, textAlign: 'right'}}>{row.numberOfTransactions}</td> {/* ✅ New cell */}
             </tr>
           ))}
         </tbody>

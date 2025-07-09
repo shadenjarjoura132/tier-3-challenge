@@ -14,7 +14,7 @@ function getMockStats() {
   const today = new Date();
   const avgOrderValue = [];
   let completedTransactions = 0;
-  let visitors = 0;
+  let visitors = 99999;
   const countries = ['US', 'UK', 'DE', 'FR', 'IN', 'CA', 'AU', 'BR', 'JP', 'CN'];
   const salesByCountry = createBaseCountriesList(countries);
 
@@ -39,12 +39,7 @@ function getMockStats() {
     avgOrderValue,
     salesByCountry: salesByCountry.map(c => ({ ...c, sales: Math.round(c.sales) }))
   };
-
-    if (isVisitorsKpiEnabled()) {
-        payload.visitors = visitors;
-    } else {
-        payload.visitors = null; // or some default value
-    }
+  payload.visitors = visitors;
 
     return payload;
 }
